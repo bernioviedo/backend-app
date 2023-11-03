@@ -1,0 +1,34 @@
+###show all employees
+GET http://localhost:8080/api/employees
+###add one employee
+POST http://localhost:8080/api/employees
+Content-Type: application/json
+
+{
+    "name": "Marcos De La Rocha",
+    "cuil": "20-40587120-4",
+    "age": 26,
+    "ancient": 2
+}
+###show one employee by id
+GET http://localhost:8080/api/employees/29855ae7-6464-4fb6-88fb-86a6b8f57260
+###update one employee by PUT method
+PUT http://localhost:8080/api/employees/a02b91bc-3769-4221-beb1-d7a3aeba7dad
+Content-Type: application/json
+
+{
+    "name": "Mauro Lombardo",
+    "cuil": "20-35621485-4",
+    "age": 44,
+    "ancient": 13
+}
+###update one employee by PATCH method
+PATCH http://localhost:8080/api/employees/8faf58c2-d652-49f0-a2ff-b6d7d5629b42
+Content-Type: application/json
+
+{
+    "age": 30,
+    "ancient": 6
+}
+###delete employee by id
+DELETE http://localhost:8080/api/employees/727b6836-ba19-476a-984b-4b777681b942

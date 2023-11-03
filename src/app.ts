@@ -1,11 +1,13 @@
 import express from 'express'
+import { employeeRouter } from './employee/employeesRoutes.js'
 
 const app = express()
-
 app.use(express.json())
 
-app.get('/api',(req, res) =>{
-    res.json({ messagge: 'holaaa'})
+app.use('/api/employees', employeeRouter)
+
+app.use((_, res) => {
+    return res.status(404).send({ message: 'Resource not found' })
 })
 
 app.listen(8080, () =>{
