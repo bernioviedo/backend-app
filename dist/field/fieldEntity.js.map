@@ -1,0 +1,1 @@
+{"version":3,"file":"fieldEntity.js","sourceRoot":"","sources":["../../src/field/fieldEntity.ts"],"names":[],"mappings":"AAAA,OAAO,MAAM,MAAM,aAAa,CAAA;AAEhC,MAAM,OAAO,KAAK;IACd,YACW,IAAY,EACZ,MAAe,EACf,UAAkB,EAClB,KAAK,MAAM,CAAC,UAAU,EAAE;QAHxB,SAAI,GAAJ,IAAI,CAAQ;QACZ,WAAM,GAAN,MAAM,CAAS;QACf,eAAU,GAAV,UAAU,CAAQ;QAClB,OAAE,GAAF,EAAE,CAAsB;IAChC,CAAC;CACP"}

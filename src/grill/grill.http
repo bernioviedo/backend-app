@@ -1,0 +1,29 @@
+###show all grills
+GET http://localhost:8080/api/grills
+###show a grill by id
+GET http://localhost:8080/api/grills/9789f584-241d-4228-91e9-ea753cd82e1e
+###create a grill
+POST http://localhost:8080/api/grills
+Content-Type: application/json
+
+{
+    "status": true,
+    "size": "Pequeña"
+}
+###modify a grill by PUT method
+PUT http://localhost:8080/api/grills/5c435b38-3991-4288-8102-1bd573ed00cf
+Content-Type: application/json
+
+{
+    "status": true,
+    "size": "ta chiquita"
+}
+###modify a grill by PATCH method
+PATCH http://localhost:8080/api/grills/5c435b38-3991-4288-8102-1bd573ed00cf
+Content-Type: application/json
+
+{
+    "status": false
+}
+###delete a grill
+DELETE http://localhost:8080/api/grills/2e493a35-3fda-44ed-8c51-e22e96c36e9b
