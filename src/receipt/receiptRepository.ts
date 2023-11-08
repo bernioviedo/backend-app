@@ -1,6 +1,5 @@
 import { Receipt } from "./receiptEntity.js"
 import { Repository } from "../shared/repository.js"
-import { GrillRepository } from "../grill/grillRepository";
 
 const receipts = [
     new Receipt(
