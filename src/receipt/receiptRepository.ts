@@ -11,26 +11,26 @@ const receipts = [
 ]
 
 export class ReceiptRepository implements Repository<Receipt>{
-    findAll(): Receipt[] | undefined {
-        return receipts
+    async findAll(): Promise<Receipt[] | undefined> {
+        return await receipts
     }
-    findOne(i: { id: string; }): Receipt | undefined {
+    async findOne(i: { id: string; }): Promise<Receipt | undefined> {
         return receipts.find((receipt) => receipt.receiptId === i.id)
     }
-    add(i: Receipt): Receipt | undefined {
-        receipts.push(i)
+    async add(i: Receipt): Promise<Receipt | undefined> {
+        await receipts.push(i)
         return i
     }
-    update(i: Receipt): Receipt | undefined {
-        const receiptIdx = receipts.findIndex((receipt) => receipt.receiptId === i.receiptId)
+    async update(i: Receipt): Promise<Receipt | undefined> {
+        const receiptIdx = await receipts.findIndex((receipt) => receipt.receiptId === i.receiptId)
 
         if (receiptIdx !== -1){
             receipts[receiptIdx] = { ...receipts[receiptIdx], ...i}
         }
         return receipts[receiptIdx]
     }
-    delete(i: { id: string; }): Receipt | undefined {
-        const receiptIdx = receipts.findIndex((receipt) => receipt.receiptId === i.id)
+    async delete(i: { id: string; }): Promise<Receipt | undefined> {
+        const receiptIdx = await receipts.findIndex((receipt) => receipt.receiptId === i.id)
 
         if (receiptIdx !== -1){
             const deletedReceipts = receipts[receiptIdx]

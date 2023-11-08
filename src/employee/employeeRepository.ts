@@ -12,26 +12,26 @@ const employees = [
 ]
 
 export class EmployeeRepository implements Repository<Employee>{
-    public findAll(): Employee[] | undefined {
-        return employees
+    public async findAll(): Promise<Employee[] | undefined> {
+        return await employees
     }
-    public findOne(i: { id: string; }): Employee | undefined {
-        return employees.find((employee) => employee.employeId === i.id)
+    public async findOne(i: { id: string; }): Promise<Employee | undefined> {
+        return await employees.find((employee) => employee.employeId === i.id)
     }
-    public add(i: Employee): Employee | undefined {
-        employees.push(i)
+    public async add(i: Employee): Promise<Employee | undefined> {
+        await employees.push(i)
         return i
     }
-    public update(i: Employee): Employee | undefined {
-        const employeeIdx = employees.findIndex((employee) => employee.employeId === i.employeId)
+    public async update(i: Employee): Promise<Employee | undefined> {
+        const employeeIdx = await employees.findIndex((employee) => employee.employeId === i.employeId)
 
         if (employeeIdx !== -1){
             employees[employeeIdx] = { ...employees[employeeIdx], ...i }
         }
         return employees[employeeIdx]
     }
-    public delete(i: { id: string; }): Employee | undefined {
-        const employeeIdx = employees.findIndex((employee) => employee.employeId === i.id)
+    public async delete(i: { id: string; }): Promise<Employee | undefined> {
+        const employeeIdx = await employees.findIndex((employee) => employee.employeId === i.id)
 
         if (employeeIdx !== -1){
             const deletedEmployees = employees[employeeIdx]

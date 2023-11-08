@@ -11,26 +11,26 @@ const users = [
 ]
 
 export class UserRepository implements Repository<User>{
-    findAll(): User[] | undefined {
-        return users
+    async findAll(): Promise<User[] | undefined> {
+        return await users
     }
-    findOne(i: { id: string; }): User | undefined {
-        return users.find((user) => user.id === i.id)
+    async findOne(i: { id: string; }): Promise<User | undefined> {
+        return await users.find((user) => user.id === i.id)
     }
-    add(i: User): User | undefined {
-        users.push(i)
+    async add(i: User): Promise<User | undefined> {
+        await users.push(i)
         return i
     }
-    update(i: User): User | undefined {
-        const userIdx = users.findIndex((user) => user.id === user.id)
+    async update(i: User): Promise<User | undefined> {
+        const userIdx = await users.findIndex((user) => user.id === user.id)
 
         if(userIdx !== -1){
             users[userIdx] = { ...users[userIdx], ...i }
         }
         return users[userIdx]
     }
-    delete(i: { id: string; }): User | undefined {
-        const userIdx = users.findIndex((user) => user.id === i.id)
+    async delete(i: { id: string; }): Promise<User | undefined> {
+        const userIdx = await users.findIndex((user) => user.id === i.id)
 
         if(userIdx !== -1){
             const deletedUsers = users[userIdx]

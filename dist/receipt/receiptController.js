@@ -15,34 +15,34 @@ function sanitizeReceiptInput(req, res, next) {
     });
     next();
 }
-function findAll(req, res) {
-    res.json({ data: receiptRepo.findAll() });
+async function findAll(req, res) {
+    res.json({ data: await receiptRepo.findAll() });
 }
-function findOne(req, res) {
+async function findOne(req, res) {
     const id = req.body.id;
-    const receipt = receiptRepo.findOne({ id });
-    if (receipt) {
+    const receipt = await receiptRepo.findOne({ id });
+    if (!receipt) {
         return res.status(404).send({ message: 'Receipt not found' });
     }
     res.status(200).json({ message: 'Receipt founded', data: receipt });
 }
-function add(req, res) {
+async function add(req, res) {
     const input = req.body.sanitizedInput;
     const receiptInput = new Receipt(input.amount, input.type, input.registeredName, input.paymentMethod);
-    const receipt = receiptRepo.add(receiptInput);
+    const receipt = await receiptRepo.add(receiptInput);
     res.status(202).json({ message: 'Receipt added', data: receipt });
 }
-function update(req, res) {
+async function update(req, res) {
     req.body.sanitizedInput.receiptId = req.params.id;
-    const receipt = receiptRepo.update(req.body.sanitizedInput);
+    const receipt = await receiptRepo.update(req.body.sanitizedInput);
     if (!receipt) {
         return res.status(404).send({ message: 'Receipt not found' });
     }
     res.status(200).json({ message: 'Receipt updated', data: receipt });
 }
-function remove(req, res) {
+async function remove(req, res) {
     const id = req.params.id;
-    const receipt = receiptRepo.delete({ id });
+    const receipt = await receiptRepo.delete({ id });
     if (!receipt) {
         return res.status(404).send({ message: 'Receipt not found' });
     }

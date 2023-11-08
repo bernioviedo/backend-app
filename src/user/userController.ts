@@ -20,14 +20,14 @@ function sanitizeUserInput(req:Request, res:Response, next:NextFunction){
     next()
 }
 
-function findAll(req:Request, res:Response){
-    res.json({ message: 'USERS', data: userRepo.findAll() })
+async function findAll(req:Request, res:Response){
+    res.json({ message: 'USERS', data: await userRepo.findAll() })
 }
 
-function findOne(req:Request, res:Response){
+async function findOne(req:Request, res:Response){
     const id = req.params.id
 
-    const user = userRepo.findOne({ id })
+    const user = await userRepo.findOne({ id })
 
     if(!user){
         return res.status(404).send({ message:'User not found' })
@@ -35,7 +35,7 @@ function findOne(req:Request, res:Response){
     res.status(200).json({ message:'User founded', data:user})
 }
 
-function add (req:Request, res:Response){
+async function add (req:Request, res:Response){
     const input = req.body.sanitizedInput
 
     const userInput = new User(
@@ -44,13 +44,13 @@ function add (req:Request, res:Response){
         input.phone,
         input.totalReserves
     )
-    const user = userRepo.add(userInput)
+    const user = await userRepo.add(userInput)
     res.status(201).json({ message:'User added', data:user })
 }
 
-function update(req:Request, res:Response){
+async function update(req:Request, res:Response){
     req.body.sanitizedInput.id = req.params.id
-    const user = userRepo.update(req.body.sanitizedInput)
+    const user = await userRepo.update(req.body.sanitizedInput)
 
     if(!user){
         return res.status(404).send({ message:'User not found' })
@@ -58,9 +58,9 @@ function update(req:Request, res:Response){
     res.status(200).json({ message:'User modified', data:user})
 }
 
-function remove(req:Request, res:Response){
+async function remove(req:Request, res:Response){
     const id = req.params.id
-    const user = userRepo.delete({ id })
+    const user = await userRepo.delete({ id })
     
     if(!user){
         return res.status(404).send({ message:'User not found' })

@@ -18,14 +18,14 @@ function sanitizeGrillInput (req:Request, res:Response, next:NextFunction){
     next()
 }
 
-function findAll (req: Request, res:Response){
-    res.json( { data: grillRepo.findAll() })
+async function findAll (req: Request, res:Response){
+    res.json( { data: await grillRepo.findAll() })
 }
 
-function findOne(req:Request, res:Response){
+async function findOne(req:Request, res:Response){
     const id = req.params.id
 
-    const grill = grillRepo.findOne({ id })
+    const grill = await grillRepo.findOne({ id })
 
     if (!grill){
         return res.status(404).send({ message: 'Grill not found' })
@@ -34,20 +34,20 @@ function findOne(req:Request, res:Response){
     res.json({ message: 'Grill found', data: grill})
 }
 
-function add (req:Request, res:Response){
+async function add (req:Request, res:Response){
     const input = req.body.sanitizedInput
 
     const grillInput = new Grill(
         input.status,
         input.size
     )
-    const grill = grillRepo.add(grillInput)
+    const grill = await grillRepo.add(grillInput)
     return res.status(201).json({ message: 'Grill succefuly created', data:grill})
 }
 
-function update(req:Request, res:Response){
+async function update(req:Request, res:Response){
     req.body.sanitizedInput.grillId = req.params.id
-    const grill = grillRepo.update(req.body.sanitizedInput)
+    const grill = await grillRepo.update(req.body.sanitizedInput)
 
     if (!grill){
         return res.status(404).send({ message: 'Grill not found' })
@@ -55,10 +55,10 @@ function update(req:Request, res:Response){
     return res.status(200).json({ message:'Grill succefuly updated', data:grill })
 }
 
-function remove(req:Request, res:Response){
+async function remove(req:Request, res:Response){
     const id = req.params.id
 
-    const grill = grillRepo.delete({ id })
+    const grill = await grillRepo.delete({ id })
 
     if (!grill){
         return res.status(404).send({ message: 'Grill not found' })
