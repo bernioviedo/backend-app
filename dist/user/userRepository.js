@@ -1,32 +1,25 @@
-import { User } from "./userEntity.js";
-const users = [
-    new User('Santiago Sabbioni', 'santisabbioni@gmail.com', '3407440934', 0)
-];
+import { db } from "../shared/db/conn.js";
+import { ObjectId } from "mongodb";
+const users = db.collection('users');
 export class UserRepository {
     async findAll() {
-        return await users;
+        return await users.find().toArray();
     }
     async findOne(i) {
-        return await users.find((user) => user.id === i.id);
+        const _id = new ObjectId(i.id);
+        return (await users.findOne({ _id })) || undefined;
     }
     async add(i) {
-        await users.push(i);
+        i._id = (await users.insertOne(i)).insertedId;
         return i;
     }
     async update(i) {
-        const userIdx = await users.findIndex((user) => user.id === user.id);
-        if (userIdx !== -1) {
-            users[userIdx] = { ...users[userIdx], ...i };
-        }
-        return users[userIdx];
+        const _id = new ObjectId(i.id);
+        return (await users.findOneAndUpdate({ _id }, { $set: i }, { returnDocument: "after" })) || undefined;
     }
     async delete(i) {
-        const userIdx = await users.findIndex((user) => user.id === i.id);
-        if (userIdx !== -1) {
-            const deletedUsers = users[userIdx];
-            users.splice(userIdx, 1);
-            return deletedUsers;
-        }
+        const _id = new ObjectId(i.id);
+        return (await users.findOneAndDelete({ _id })) || undefined;
     }
 }
 //# sourceMappingURL=userRepository.js.map
