@@ -1,19 +1,19 @@
 ###show all receipts
 GET http://localhost:8080/api/receipts
 ###show one receipt
-GET http://localhost:8080/api/receipts/43569c01-8e5d-44e2-a669-3af7ffe35250
+GET http://localhost:8080/api/receipts/654d4d8fd4c8e887af9af46e
 ###create a receipt
 POST http://localhost:8080/api/receipts
 Content-Type: application/json
 
 {
-    "amount": 8112.55,
-    "type": "B",
+    "amount": 6000.55,
+    "type": "A",
     "registeredName": "Tomas Campos",
-    "paymentMethod": "Credito"
+    "paymentMethod": "Efectivo"
 }
 ###modify a receipt by PUT method
-PUT http://localhost:8080/api/receipts/f14429ac-9ebc-48a4-83c6-742c79ac3831
+PUT http://localhost:8080/api/receipts/654d4d8fd4c8e887af9af46e
 Content-Type: application/json
 
 {
@@ -30,4 +30,4 @@ Content-Type: application/json
     "registeredName": "Lucas Gimenez"
 }
 ###delete a receipt
-DELETE http://localhost:8080/api/receipts/c6223011-2228-4506-b00e-f458900fb68e
+DELETE http://localhost:8080/api/receipts/654d4d8fd4c8e887af9af46e

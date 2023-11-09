@@ -25,7 +25,7 @@ async function findAll(req:Request, res:Response){
 }
 
 async function findOne(req:Request, res:Response){
-    const id = req.body.id
+    const id = req.params.id
     
     const receipt = await receiptRepo.findOne({ id })
 

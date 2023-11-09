@@ -19,7 +19,7 @@ async function findAll(req, res) {
     res.json({ data: await receiptRepo.findAll() });
 }
 async function findOne(req, res) {
-    const id = req.body.id;
+    const id = req.params.id;
     const receipt = await receiptRepo.findOne({ id });
     if (!receipt) {
         return res.status(404).send({ message: 'Receipt not found' });
