@@ -1,32 +1,25 @@
-import { Employee } from "./employeeEntity.js";
-const employees = [
-    new Employee('Ezequiel Lombardo', '20-35621485-4', 36, 5, 'a02b91bc-3769-4221-beb1-d7a3aeba7dad'),
-];
+import { db } from "../shared/db/conn.js";
+import { ObjectId } from "mongodb";
+const employees = db.collection('employees');
 export class EmployeeRepository {
-    findAll() {
-        return employees;
+    async findAll() {
+        return await employees.find().toArray();
     }
-    findOne(i) {
-        return employees.find((employee) => employee.employeId === i.id);
+    async findOne(i) {
+        const _id = new ObjectId(i.id);
+        return (await employees.findOne({ _id })) || undefined;
     }
-    add(i) {
-        employees.push(i);
+    async add(i) {
+        (await employees.insertOne(i)).insertedId;
         return i;
     }
-    update(i) {
-        const employeeIdx = employees.findIndex((employee) => employee.employeId === i.employeId);
-        if (employeeIdx !== -1) {
-            employees[employeeIdx] = { ...employees[employeeIdx], ...i };
-        }
-        return employees[employeeIdx];
+    async update(i) {
+        const _id = new ObjectId(i.employeId);
+        return (await employees.findOneAndUpdate({ _id }, { $set: i }, { returnDocument: 'after' })) || undefined;
     }
-    delete(i) {
-        const employeeIdx = employees.findIndex((employee) => employee.employeId === i.id);
-        if (employeeIdx !== -1) {
-            const deletedEmployees = employees[employeeIdx];
-            employees.splice(employeeIdx, 1);
-            return deletedEmployees;
-        }
+    async delete(i) {
+        const _id = new ObjectId(i.id);
+        return (await employees.findOneAndDelete({ _id })) || undefined;
     }
 }
 //# sourceMappingURL=employeeRepository.js.map

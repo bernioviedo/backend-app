@@ -1,0 +1,33 @@
+###show all users
+GET http://localhost:8080/api/users
+###show a user
+GET http://localhost:8080/api/users/654d50c53f8364ca4a2df1f1
+###create a user
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+    "name": "Bernardo Oviedo",
+    "mail": "bernioviedo@gmail.com",
+    "phone": "3407415215",
+    "totalReserves": 10
+}
+###modify a user by PUT method
+PUT http://localhost:8080/api/users/654bf6181880b25b079b2f78
+Content-Type: application/json
+
+{
+    "name": "Santiago Santoro",
+    "mail": "santitoro@gmail.com",
+    "phone": "3407440934",
+    "totalReserves": 16
+}
+###modify a user by PATCH method
+PATCH  http://localhost:8080/api/users/07cbe406-7f4d-45f2-9811-b3c99414f5c9
+Content-Type: application/json
+
+{
+    "mail": "bernardo@gmail.com"
+}
+###delete a user
+DELETE http://localhost:8080/api/users/654bf64c1880b25b079b2f79

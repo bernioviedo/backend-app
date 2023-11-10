@@ -3,25 +3,25 @@ const grills = [
     new Grill(true, 'Mediana')
 ];
 export class GrillRepository {
-    findAll() {
-        return grills;
+    async findAll() {
+        return await grills;
     }
-    findOne(i) {
-        return grills.find((grill) => grill.grillId === i.id);
+    async findOne(i) {
+        return await grills.find((grill) => grill.grillId === i.id);
     }
-    add(i) {
-        grills.push(i);
+    async add(i) {
+        await grills.push(i);
         return i;
     }
-    update(i) {
-        const grillIdx = grills.findIndex((grill) => grill.grillId === i.grillId);
+    async update(i) {
+        const grillIdx = await grills.findIndex((grill) => grill.grillId === i.grillId);
         if (grillIdx !== -1) {
             grills[grillIdx] = { ...grills[grillIdx], ...i };
         }
         return grills[grillIdx];
     }
-    delete(i) {
-        const grillIdx = grills.findIndex((grill) => grill.grillId === i.id);
+    async delete(i) {
+        const grillIdx = await grills.findIndex((grill) => grill.grillId === i.id);
         if (grillIdx !== -1) {
             const deletedGrill = grills[grillIdx];
             grills.splice(grillIdx, 1);

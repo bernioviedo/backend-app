@@ -1,0 +1,33 @@
+###show all receipts
+GET http://localhost:8080/api/receipts
+###show one receipt
+GET http://localhost:8080/api/receipts/654d4d8fd4c8e887af9af46e
+###create a receipt
+POST http://localhost:8080/api/receipts
+Content-Type: application/json
+
+{
+    "amount": 6000.55,
+    "type": "A",
+    "registeredName": "Tomas Campos",
+    "paymentMethod": "Efectivo"
+}
+###modify a receipt by PUT method
+PUT http://localhost:8080/api/receipts/654d4d8fd4c8e887af9af46e
+Content-Type: application/json
+
+{
+    "amount": 6948.99,
+    "type": "A",
+    "registeredName": "Lucas Gimenez",
+    "paymentMethod": "Debito"
+}
+###modify a receipt by PATCH method
+PATCH http://localhost:8080/api/receipts/4622a402-4346-4071-8e38-c4e2ad3a6769
+Content-Type: application/json
+
+{
+    "registeredName": "Lucas Gimenez"
+}
+###delete a receipt
+DELETE http://localhost:8080/api/receipts/654d4d8fd4c8e887af9af46e

@@ -1,32 +1,25 @@
-import { Field } from "./fieldEntity.js";
-const fields = [
-    new Field('Futbol 5', true, '10x15', 'c2181edf-041b-0a61-3651-79d671fa3db7')
-];
+import { db } from "../shared/db/conn.js";
+import { ObjectId } from "mongodb";
+const fields = db.collection('fields');
 export class FieldRepository {
-    findAll() {
-        return fields;
+    async findAll() {
+        return await fields.find().toArray();
     }
-    findOne(i) {
-        return fields.find((field) => field.id === i.id);
+    async findOne(i) {
+        const _id = new ObjectId(i.id);
+        return (await fields.findOne({ _id })) || undefined;
     }
-    add(i) {
-        fields.push(i);
+    async add(i) {
+        i._id = (await fields.insertOne(i)).insertedId;
         return i;
     }
-    update(i) {
-        const fieldIdx = fields.findIndex((field) => field.id === i.id);
-        if (fieldIdx !== -1) {
-            fields[fieldIdx] = { ...fields[fieldIdx], ...i };
-        }
-        return fields[fieldIdx];
+    async update(i) {
+        const _id = new ObjectId(i.id);
+        return (await fields.findOneAndUpdate({ _id }, { $set: i }, { returnDocument: 'after' })) || undefined;
     }
-    delete(i) {
-        const fieldIdx = fields.findIndex((field) => field.id === i.id);
-        if (fieldIdx !== -1) {
-            const deletedFields = fields[fieldIdx];
-            fields.splice(fieldIdx, 1);
-            return deletedFields;
-        }
+    async delete(i) {
+        const _id = new ObjectId(i.id);
+        return (await fields.findOneAndDelete({ _id })) || undefined;
     }
 }
 //# sourceMappingURL=fieldRepository.js.map

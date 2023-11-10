@@ -1,42 +1,28 @@
 import { Repository } from "../shared/repository.js"
 import { Employee } from "./employeeEntity.js"
+import { db } from "../shared/db/conn.js"
+import { ObjectId } from "mongodb"
 
-const employees = [
-    new Employee(
-        'Ezequiel Lombardo',
-        '20-35621485-4',
-        36,
-        5,
-        'a02b91bc-3769-4221-beb1-d7a3aeba7dad'
-    ),
-]
+const employees = db.collection<Employee>('employees')
 
 export class EmployeeRepository implements Repository<Employee>{
-    public findAll(): Employee[] | undefined {
-        return employees
+    public async findAll(): Promise<Employee[] | undefined> {
+        return await employees.find().toArray()
     }
-    public findOne(i: { id: string; }): Employee | undefined {
-        return employees.find((employee) => employee.employeId === i.id)
+    public async findOne(i: { id: string; }): Promise<Employee | undefined> {
+        const _id = new ObjectId(i.id)
+        return (await employees.findOne({ _id })) || undefined
     }
-    public add(i: Employee): Employee | undefined {
-        employees.push(i)
+    public async add(i: Employee): Promise<Employee | undefined> {
+        (await employees.insertOne(i)).insertedId
         return i
     }
-    public update(i: Employee): Employee | undefined {
-        const employeeIdx = employees.findIndex((employee) => employee.employeId === i.employeId)
-
-        if (employeeIdx !== -1){
-            employees[employeeIdx] = { ...employees[employeeIdx], ...i }
-        }
-        return employees[employeeIdx]
+    public async update(i: Employee): Promise<Employee | undefined> {
+        const _id = new ObjectId(i.employeId)
+        return(await employees.findOneAndUpdate({ _id}, { $set: i }, { returnDocument:'after'})) || undefined
     }
-    public delete(i: { id: string; }): Employee | undefined {
-        const employeeIdx = employees.findIndex((employee) => employee.employeId === i.id)
-
-        if (employeeIdx !== -1){
-            const deletedEmployees = employees[employeeIdx]
-            employees.splice(employeeIdx, 1)
-            return deletedEmployees
-        }
+    public async delete(i: { id: string; }): Promise<Employee | undefined> {
+        const _id = new ObjectId(i.id)
+        return (await employees.findOneAndDelete({ _id })) || undefined
     }
 }
