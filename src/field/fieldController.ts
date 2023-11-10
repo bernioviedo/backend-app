@@ -8,7 +8,9 @@ function sanitizeFieldInput(req:Request, res:Response, next:NextFunction){
     req.body.sanitizedInput = {
         type: req.body.type,
         status: req.body.status,
-        dimentions: req.body.dimentions
+        grill: req.body.grill,
+        price: req.body.price,
+        imageUrl: req.body.imageUrl
     }
 
     Object.keys(req.body.sanitizedInput).forEach((key) => {
@@ -40,7 +42,9 @@ async function add(req:Request, res:Response){
     const fieldInput = new Field(
         input.type,
         input.status,
-        input.dimentions
+        input.grill,
+        input.price,
+        input.imageUrl
     )
 
     const field = await fieldRepo.add(fieldInput)
