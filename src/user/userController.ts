@@ -7,8 +7,9 @@ const userRepo = new UserRepository()
 function sanitizeUserInput(req:Request, res:Response, next:NextFunction){
     req.body.sanitizedInput = {
         name: req.body.name,
+        lastName: req.body.lastName,
         mail: req.body.mail,
-        phone: req.body.phone,
+        //phone: req.body.phone,
         totalReserves: req.body.totalReserves
     }
 
@@ -40,8 +41,9 @@ async function add (req:Request, res:Response){
 
     const userInput = new User(
         input.name,
+        input.lastName,
         input.mail,
-        input.phone,
+        //input.phone,
         input.totalReserves
     )
     const user = await userRepo.add(userInput)

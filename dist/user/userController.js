@@ -4,8 +4,9 @@ const userRepo = new UserRepository();
 function sanitizeUserInput(req, res, next) {
     req.body.sanitizedInput = {
         name: req.body.name,
+        lastName: req.body.lastName,
         mail: req.body.mail,
-        phone: req.body.phone,
+        //phone: req.body.phone,
         totalReserves: req.body.totalReserves
     };
     Object.keys(req.body.sanitizedInput).forEach((key) => {
@@ -28,7 +29,9 @@ async function findOne(req, res) {
 }
 async function add(req, res) {
     const input = req.body.sanitizedInput;
-    const userInput = new User(input.name, input.mail, input.phone, input.totalReserves);
+    const userInput = new User(input.name, input.lastName, input.mail, 
+    //input.phone,
+    input.totalReserves);
     const user = await userRepo.add(userInput);
     res.status(201).json({ message: 'User added', data: user });
 }
