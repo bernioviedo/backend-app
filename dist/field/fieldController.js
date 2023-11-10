@@ -5,7 +5,9 @@ function sanitizeFieldInput(req, res, next) {
     req.body.sanitizedInput = {
         type: req.body.type,
         status: req.body.status,
-        dimentions: req.body.dimentions
+        grill: req.body.grill,
+        price: req.body.price,
+        imageUrl: req.body.imageUrl
     };
     Object.keys(req.body.sanitizedInput).forEach((key) => {
         if (req.body.sanitizedInput[key] === undefined) {
@@ -27,7 +29,7 @@ async function findOne(req, res) {
 }
 async function add(req, res) {
     const input = req.body.sanitizedInput;
-    const fieldInput = new Field(input.type, input.status, input.dimentions);
+    const fieldInput = new Field(input.type, input.status, input.grill, input.price, input.imageUrl);
     const field = await fieldRepo.add(fieldInput);
     return res.status(201).json({ message: 'Field succefuly created', data: field });
 }

@@ -5,12 +5,14 @@ POST http://localhost:8080/api/fields
 Content-Type: application/json
 
 {
-    "type": "Futbol 6",
-    "status": true,
-    "dimentions": "12x18"
+    "type": "Futbol 11",
+    "status": false,
+    "grill": false,
+    "price": 150.50,
+    "imageUrl": "assets/cancha-f6.jpg"
 }
 ###show a field by id
-GET http://localhost:8080/api/fields/0a87f6d4-27e4-4187-907c-c14abadbf02b
+GET http://localhost:8080/api/fields/654e94dbf6b2eafc6ddcea86
 ###update a field by PUT method
 PUT http://localhost:8080/api/fields/53490800-2a59-48e3-897a-d8039bebfc36
 Content-Type: application/json
@@ -21,11 +23,11 @@ Content-Type: application/json
     "dimentions": "12x17"
 }
 ###update a field by PATCH method
-PATCH http://localhost:8080/api/fields/53490800-2a59-48e3-897a-d8039bebfc36
+PATCH http://localhost:8080/api/fields/654e97fff6b2eafc6ddcea89
 Content-Type: application/json
 
 {
-    "status": false
+    "imageUrl": "assets/cancha-f5.jpg"
 }
 ###delete a field
-DELETE http://localhost:8080/api/fields/53490800-2a59-48e3-897a-d8039bebfc36
+DELETE http://localhost:8080/api/fields/654e9ccfb0e6222121bc67b0
