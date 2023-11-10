@@ -11,9 +11,9 @@ Content-Type: application/json
     "ancient": 2
 }
 ###show one employee by id
-GET http://localhost:8080/api/employees/c88ed3ef-257e-4744-9a0a-5bde9d28a25c
+GET http://localhost:8080/api/employees/654eaec78cca19e5789003e1
 ###update one employee by PUT method
-PUT http://localhost:8080/api/employees/a02b91bc-3769-4221-beb1-d7a3aeba7dad
+PUT http://localhost:8080/api/employees/654eaec78cca19e5789003e1
 Content-Type: application/json
 
 {
@@ -23,7 +23,7 @@ Content-Type: application/json
     "ancient": 13
 }
 ###update one employee by PATCH method
-PATCH http://localhost:8080/api/employees/8faf58c2-d652-49f0-a2ff-b6d7d5629b42
+PATCH http://localhost:8080/api/employees/654eaec78cca19e5789003e1
 Content-Type: application/json
 
 {
@@ -31,4 +31,4 @@ Content-Type: application/json
     "ancient": 6
 }
 ###delete employee by id
-DELETE http://localhost:8080/api/employees/b6971d6b-8b8d-4147-bdf0-d4c1b930f4a3
+DELETE http://localhost:8080/api/employees/654eaef18cca19e5789003e2
