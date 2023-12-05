@@ -14,7 +14,7 @@ export class EmployeeRepository {
         return i;
     }
     async update(i) {
-        const _id = new ObjectId(i.employeId);
+        const _id = new ObjectId(i._id);
         return (await employees.findOneAndUpdate({ _id }, { $set: i }, { returnDocument: 'after' })) || undefined;
     }
     async delete(i) {

@@ -1,6 +1,7 @@
 import { Employee } from "./employeeEntity.js"
 import { EmployeeRepository } from "./employeeRepository.js"
 import {Request, Response, NextFunction} from 'express'
+import { validateEmployee, validatePartialEmployee } from "../schemas/employeeSchema.js"
 
 const employeeRepo = new EmployeeRepository()
 
@@ -36,17 +37,13 @@ async function findOne(req:Request, res:Response){
 }
 
 async function add(req:Request, res:Response){
-    const input = req.body.sanitizedInput
+    const result = validateEmployee(req.body)
 
-    const employeeInput = new Employee(
-        input.name,
-        input.cuil,
-        input.age,
-        input.ancient
-    )
-
-    const employee = await employeeRepo.add(employeeInput)
-    return res.status(201).json({ data: employee })
+    if(!result.success){
+        return res.status(422).json({ error:JSON.parse(result.error.message)})
+    }
+    const newEmployee = await employeeRepo.add({ ...result.data })
+    return res.status(201).json({ data: newEmployee })
 }
 
 async function update(req:Request, res:Response){
