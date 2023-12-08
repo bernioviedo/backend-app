@@ -1,5 +1,7 @@
 import { ReceiptRepository } from "./receiptRepository.js";
-import { Receipt } from "./receiptEntity.js";
+import { validateReceipt } from "../schemas/receiptSchema.js";
+import { ObjectId } from "mongodb";
+import crypto from 'node:crypto';
 const receiptRepo = new ReceiptRepository();
 function sanitizeReceiptInput(req, res, next) {
     req.body.sanitizedInput = {
@@ -27,10 +29,16 @@ async function findOne(req, res) {
     res.status(200).json({ message: 'Receipt founded', data: receipt });
 }
 async function add(req, res) {
-    const input = req.body.sanitizedInput;
-    const receiptInput = new Receipt(input.amount, input.type, input.registeredName, input.paymentMethod);
-    const receipt = await receiptRepo.add(receiptInput);
-    res.status(202).json({ message: 'Receipt added', data: receipt });
+    const result = validateReceipt(req.body);
+    if (!result.success) {
+        return res.status(422).json({ error: JSON.parse(result.error.message) });
+    }
+    const newReceipt = receiptRepo.add({
+        ...result.data,
+        receiptId: crypto.randomUUID(),
+        _id: new ObjectId
+    });
+    return res.status(200).json({ message: 'Receipt created', data: newReceipt });
 }
 async function update(req, res) {
     req.body.sanitizedInput.receiptId = req.params.id;

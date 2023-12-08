@@ -25,10 +25,10 @@ const fieldSchema = z.object({
         message: "Must be a valid url"
     })
 });
-function validateField(object) {
+export function validateField(object) {
     return fieldSchema.safeParse(object);
 }
-function validatePartialField(object) {
+export function validatePartialField(object) {
     return fieldSchema.safeParse(object);
 }
 //# sourceMappingURL=fieldSchema.js.map
