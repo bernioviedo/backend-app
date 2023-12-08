@@ -1,32 +1,25 @@
-import { Receipt } from "./receiptEntity.js";
-const receipts = [
-    new Receipt(6948.99, 'A', 'Tomas Campos', 'Debito')
-];
+import { db } from "../shared/db/conn.js";
+import { ObjectId } from "mongodb";
+const receipts = db.collection('Receipts');
 export class ReceiptRepository {
     async findAll() {
-        return await receipts;
+        return await receipts.find().toArray();
     }
     async findOne(i) {
-        return receipts.find((receipt) => receipt.receiptId === i.id);
+        const _id = new ObjectId(i.id);
+        return (await receipts.findOne({ _id })) || undefined;
     }
     async add(i) {
-        await receipts.push(i);
+        i._id = (await receipts.insertOne(i)).insertedId;
         return i;
     }
     async update(i) {
-        const receiptIdx = await receipts.findIndex((receipt) => receipt.receiptId === i.receiptId);
-        if (receiptIdx !== -1) {
-            receipts[receiptIdx] = { ...receipts[receiptIdx], ...i };
-        }
-        return receipts[receiptIdx];
+        const _id = new ObjectId(i.receiptId);
+        return (await receipts.findOneAndUpdate({ _id }, { $set: i }, { returnDocument: 'after' })) || undefined;
     }
     async delete(i) {
-        const receiptIdx = await receipts.findIndex((receipt) => receipt.receiptId === i.id);
-        if (receiptIdx !== -1) {
-            const deletedReceipts = receipts[receiptIdx];
-            receipts.splice(receiptIdx, 1);
-            return deletedReceipts;
-        }
+        const _id = new ObjectId(i.id);
+        return (await receipts.findOneAndDelete({ _id })) || undefined;
     }
 }
 //# sourceMappingURL=receiptRepository.js.map

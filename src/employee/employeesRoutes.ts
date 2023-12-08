@@ -1,5 +1,6 @@
 import { Router } from "express"
 import { sanitizeEmployeeInput, findAll, findOne, add, update, remove } from "./employeeController.js"
+import { validateEmployee, validatePartialEmployee } from "../schemas/employeeSchema.js"
 
 export const employeeRouter = Router()
 

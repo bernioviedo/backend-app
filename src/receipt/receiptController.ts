@@ -1,6 +1,10 @@
 import { ReceiptRepository } from "./receiptRepository.js"
 import { Receipt } from "./receiptEntity.js"
 import { Request, Response, NextFunction } from 'express'
+import { validateReceipt, validatePartialReceipt } from "../schemas/receiptSchema.js"
+import { ObjectId } from "mongodb"
+import crypto from 'node:crypto'
+
 
 const receiptRepo = new ReceiptRepository()
 
@@ -25,7 +29,7 @@ async function findAll(req:Request, res:Response){
 }
 
 async function findOne(req:Request, res:Response){
-    const id = req.body.id
+    const id = req.params.id
     
     const receipt = await receiptRepo.findOne({ id })
 
@@ -36,16 +40,18 @@ async function findOne(req:Request, res:Response){
 }
 
 async function add(req:Request, res:Response){
-    const input = req.body.sanitizedInput
+    const result = validateReceipt(req.body)
 
-    const receiptInput = new Receipt(
-        input.amount,
-        input.type,
-        input.registeredName,
-        input.paymentMethod
-        )
-    const receipt = await receiptRepo.add(receiptInput)
-    res.status(202).json({ message:'Receipt added', data:receipt})
+    if(!result.success){
+        return res.status(422).json({ error:JSON.parse(result.error.message)})
+    }
+
+    const newReceipt = receiptRepo.add({
+        ...result.data,
+        receiptId: crypto.randomUUID(),
+        _id: new ObjectId
+    })
+    return res.status(200).json({ message:'Receipt created', data: newReceipt })
 }
 
 async function update(req:Request, res:Response){

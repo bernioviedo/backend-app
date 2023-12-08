@@ -1,7 +1,7 @@
 ###show all users
 GET http://localhost:8080/api/users
 ###show a user
-GET http://localhost:8080/api/users/654bf6181880b25b079b2f78
+GET http://localhost:8080/api/users/654d50c53f8364ca4a2df1f1
 ###create a user
 POST http://localhost:8080/api/users
 Content-Type: application/json
@@ -17,8 +17,8 @@ PUT http://localhost:8080/api/users/654bf6181880b25b079b2f78
 Content-Type: application/json
 
 {
-    "name": "Santiago Sabbioni",
-    "mail": "santisabbio@gmail.com",
+    "name": "Santiago Santoro",
+    "mail": "santitoro@gmail.com",
     "phone": "3407440934",
     "totalReserves": 16
 }

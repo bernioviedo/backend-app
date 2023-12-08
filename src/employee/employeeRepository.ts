@@ -1,42 +1,28 @@
 import { Repository } from "../shared/repository.js"
 import { Employee } from "./employeeEntity.js"
+import { db } from "../shared/db/conn.js"
+import { ObjectId } from "mongodb"
 
-const employees = [
-    new Employee(
-        'Ezequiel Lombardo',
-        '20-35621485-4',
-        36,
-        5,
-        'a02b91bc-3769-4221-beb1-d7a3aeba7dad'
-    ),
-]
+const employees = db.collection<Employee>('employees')
 
 export class EmployeeRepository implements Repository<Employee>{
     public async findAll(): Promise<Employee[] | undefined> {
-        return await employees
+        return await employees.find().toArray()
     }
     public async findOne(i: { id: string; }): Promise<Employee | undefined> {
-        return await employees.find((employee) => employee.employeId === i.id)
+        const _id = new ObjectId(i.id)
+        return (await employees.findOne({ _id })) || undefined
     }
     public async add(i: Employee): Promise<Employee | undefined> {
-        await employees.push(i)
+        (await employees.insertOne(i)).insertedId
         return i
     }
     public async update(i: Employee): Promise<Employee | undefined> {
-        const employeeIdx = await employees.findIndex((employee) => employee.employeId === i.employeId)
-
-        if (employeeIdx !== -1){
-            employees[employeeIdx] = { ...employees[employeeIdx], ...i }
-        }
-        return employees[employeeIdx]
+        const _id = new ObjectId(i._id)
+        return(await employees.findOneAndUpdate({ _id}, { $set: i }, { returnDocument:'after'})) || undefined
     }
     public async delete(i: { id: string; }): Promise<Employee | undefined> {
-        const employeeIdx = await employees.findIndex((employee) => employee.employeId === i.id)
-
-        if (employeeIdx !== -1){
-            const deletedEmployees = employees[employeeIdx]
-            employees.splice(employeeIdx, 1)
-            return deletedEmployees
-        }
+        const _id = new ObjectId(i.id)
+        return (await employees.findOneAndDelete({ _id })) || undefined
     }
 }

@@ -1,6 +1,8 @@
 import { Field } from "./fieldEntity.js"
 import { FieldRepository } from "./fieldRepository.js"
 import { Request, Response, NextFunction } from "express"
+import { validateField, validatePartialField } from "../schemas/fieldSchema.js"
+import { ObjectId } from "mongodb"
 
 const fieldRepo = new FieldRepository()
 
@@ -8,7 +10,9 @@ function sanitizeFieldInput(req:Request, res:Response, next:NextFunction){
     req.body.sanitizedInput = {
         type: req.body.type,
         status: req.body.status,
-        dimentions: req.body.dimentions
+        grill: req.body.grill,
+        price: req.body.price,
+        imageUrl: req.body.imageUrl
     }
 
     Object.keys(req.body.sanitizedInput).forEach((key) => {
@@ -35,16 +39,17 @@ async function findOne(req:Request, res:Response){
 }
 
 async function add(req:Request, res:Response){
-    const input = req.body.sanitizedInput
+    const result = validateField(req.body)
 
-    const fieldInput = new Field(
-        input.type,
-        input.status,
-        input.dimentions
-    )
-
-    const field = await fieldRepo.add(fieldInput)
-    return res.status(201).json({ message:'Field succefuly created', data:field })
+    if(!result.success){
+        return res.status(422).json({ error:JSON.parse(result.error.message)})
+    }
+    const newField = await fieldRepo.add({
+        ...result.data,
+        id: crypto.randomUUID(),
+        _id: new ObjectId
+    })
+    return res.status(200).json({ message:'Field succefuly created', data: newField })
 }
 
 async function update(req:Request, res:Response){

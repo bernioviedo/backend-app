@@ -1,11 +1,14 @@
-import { Field } from "./fieldEntity.js";
 import { FieldRepository } from "./fieldRepository.js";
+import { validateField } from "../schemas/fieldSchema.js";
+import { ObjectId } from "mongodb";
 const fieldRepo = new FieldRepository();
 function sanitizeFieldInput(req, res, next) {
     req.body.sanitizedInput = {
         type: req.body.type,
         status: req.body.status,
-        dimentions: req.body.dimentions
+        grill: req.body.grill,
+        price: req.body.price,
+        imageUrl: req.body.imageUrl
     };
     Object.keys(req.body.sanitizedInput).forEach((key) => {
         if (req.body.sanitizedInput[key] === undefined) {
@@ -26,10 +29,16 @@ async function findOne(req, res) {
     res.json({ message: 'Field found', data: field });
 }
 async function add(req, res) {
-    const input = req.body.sanitizedInput;
-    const fieldInput = new Field(input.type, input.status, input.dimentions);
-    const field = await fieldRepo.add(fieldInput);
-    return res.status(201).json({ message: 'Field succefuly created', data: field });
+    const result = validateField(req.body);
+    if (!result.success) {
+        return res.status(422).json({ error: JSON.parse(result.error.message) });
+    }
+    const newField = await fieldRepo.add({
+        ...result.data,
+        id: crypto.randomUUID(),
+        _id: new ObjectId
+    });
+    return res.status(200).json({ message: 'Field succefuly created', data: newField });
 }
 async function update(req, res) {
     req.body.sanitizedInput.id = req.params.id;
