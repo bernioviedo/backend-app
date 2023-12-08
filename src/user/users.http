@@ -7,7 +7,8 @@ POST http://localhost:8080/api/users
 Content-Type: application/json
 
 {
-    "name": "Bernardo Oviedo",
+    "name": "Bernardo",
+    "lastName": "Oviedo",
     "mail": "bernioviedo@gmail.com",
     "phone": "3407415215",
     "totalReserves": 10
@@ -30,4 +31,4 @@ Content-Type: application/json
     "mail": "bernardo@gmail.com"
 }
 ###delete a user
-DELETE http://localhost:8080/api/users/654bf64c1880b25b079b2f79
+DELETE http://localhost:8080/api/users/654e8fb0de96886975286d03

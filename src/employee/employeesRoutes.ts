@@ -5,8 +5,8 @@ import { validateEmployee, validatePartialEmployee } from "../schemas/employeeSc
 export const employeeRouter = Router()
 
 employeeRouter.get('/', findAll)
-employeeRouter.post('/', validateEmployee, add)
+employeeRouter.post('/', sanitizeEmployeeInput, add)
 employeeRouter.get('/:id', findOne)
-employeeRouter.patch('/:id', validatePartialEmployee, update)
-employeeRouter.put('/:id', validatePartialEmployee, update)
+employeeRouter.patch('/:id', sanitizeEmployeeInput, update)
+employeeRouter.put('/:id', sanitizeEmployeeInput, update)
 employeeRouter.delete('/:id', remove)

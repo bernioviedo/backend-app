@@ -7,7 +7,7 @@ export class Employee{
         public cuil: string,
         public age: number,
         public ancient: number,
-        //public employeId = crypto.randomUUID(),
+        public employeId = crypto.randomUUID(),
         public _id? : ObjectId
     ) {}
 }

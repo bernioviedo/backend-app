@@ -10,12 +10,10 @@ const employeeSchema = z.object({
     ancient: z.number().int().positive(),
 })
 
-function validateEmployee(object: any){
-    return employeeSchema.safeParse(object)
+export function validateEmployee(input: any){
+    return employeeSchema.safeParse(input)
 }
 
-function validatePartialEmployee(object: unknown){
-    return employeeSchema.partial().safeParse(object)
+export function validatePartialEmployee(input: any){
+    return employeeSchema.partial().safeParse(input)
 }
-
-export { validateEmployee, validatePartialEmployee }
