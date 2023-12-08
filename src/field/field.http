@@ -27,7 +27,7 @@ PATCH http://localhost:8080/api/fields/654e97fff6b2eafc6ddcea89
 Content-Type: application/json
 
 {
-    "imageUrl": "assets/cancha-f5.jpg"
+    "status": true
 }
 ###delete a field
 DELETE http://localhost:8080/api/fields/654e9ccfb0e6222121bc67b0

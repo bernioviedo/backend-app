@@ -1,11 +1,15 @@
 import { User } from "./userEntity.js";
 import { UserRepository } from "./userRepository.js";
+import { validateUser } from "../schemas/userSchema.js";
+import crypto from 'node:crypto';
+import { ObjectId } from "mongodb";
 const userRepo = new UserRepository();
 function sanitizeUserInput(req, res, next) {
     req.body.sanitizedInput = {
         name: req.body.name,
+        lastName: req.body.lastName,
         mail: req.body.mail,
-        phone: req.body.phone,
+        //phone: req.body.phone,
         totalReserves: req.body.totalReserves
     };
     Object.keys(req.body.sanitizedInput).forEach((key) => {
@@ -27,8 +31,20 @@ async function findOne(req, res) {
     res.status(200).json({ message: 'User founded', data: user });
 }
 async function add(req, res) {
+    const result = validateUser(req.body);
+    if (!result.success) {
+        return res.status(422).json({ error: JSON.parse(result.error.message) });
+    }
+    const newUser = userRepo.add({
+        ...result.data,
+        id: crypto.randomUUID(),
+        _id: new ObjectId
+    });
+    return res.status(201).json({ message: 'User created', data: newUser });
     const input = req.body.sanitizedInput;
-    const userInput = new User(input.name, input.mail, input.phone, input.totalReserves);
+    const userInput = new User(input.name, input.lastName, input.mail, 
+    //input.phone,
+    input.totalReserves);
     const user = await userRepo.add(userInput);
     res.status(201).json({ message: 'User added', data: user });
 }
