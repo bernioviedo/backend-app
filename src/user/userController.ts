@@ -1,6 +1,9 @@
 import { User } from "./userEntity.js"
 import { UserRepository } from "./userRepository.js"
 import { Request, Response, NextFunction } from 'express'
+import { validateUser, validatePartialUser } from "../schemas/userSchema.js"
+import crypto from 'node:crypto'
+import { ObjectId } from "mongodb"
 
 const userRepo = new UserRepository()
 
@@ -37,6 +40,19 @@ async function findOne(req:Request, res:Response){
 }
 
 async function add (req:Request, res:Response){
+    const result = validateUser(req.body)
+
+    if(!result.success){
+        return res.status(422).json({ error: JSON.parse(result.error.message)})
+    }
+
+    const newUser = userRepo.add({
+        ...result.data,
+        id: crypto.randomUUID(),
+        _id: new ObjectId
+    })
+
+    return res.status(201).json({ message:'User created', data: newUser})
     const input = req.body.sanitizedInput
 
     const userInput = new User(

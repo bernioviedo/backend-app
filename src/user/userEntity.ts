@@ -6,7 +6,6 @@ export class User{
         public name: string,
         public lastName: string,
         public mail: string,
-        //public phone: string,
         public totalReserves: number,
         public id = crypto.randomUUID(),
         public _id?: ObjectId
