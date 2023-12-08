@@ -8,11 +8,10 @@ const employeeSchema = z.object({
     age: z.number().int().positive().gte(18),
     ancient: z.number().int().positive(),
 });
-function validateEmployee(object) {
-    return employeeSchema.safeParse(object);
+export function validateEmployee(input) {
+    return employeeSchema.safeParse(input);
 }
-function validatePartialEmployee(object) {
-    return employeeSchema.partial().safeParse(object);
+export function validatePartialEmployee(input) {
+    return employeeSchema.partial().safeParse(input);
 }
-export { validateEmployee, validatePartialEmployee };
 //# sourceMappingURL=employeeSchema.js.map

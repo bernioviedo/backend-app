@@ -27,10 +27,10 @@ const fieldSchema = z.object({
     })
 })
 
-function validateField(object: any){
+export function validateField(object: any){
     return fieldSchema.safeParse(object)
 }
 
-function validatePartialField(object: any){
+export function validatePartialField(object: any){
     return fieldSchema.safeParse(object)
 }
