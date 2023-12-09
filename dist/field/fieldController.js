@@ -31,7 +31,7 @@ async function findOne(req, res) {
 async function add(req, res) {
     const result = validateField(req.body);
     if (!result.success) {
-        return res.status(422).json({ error: JSON.parse(result.error.message) });
+        return res.status(400).json({ error: JSON.parse(result.error.message) });
     }
     const newField = await fieldRepo.add({
         ...result.data,
