@@ -8,7 +8,7 @@ function sanitizeUserInput(req, res, next) {
     req.body.sanitizedInput = {
         name: req.body.name,
         lastName: req.body.lastName,
-        mail: req.body.email,
+        email: req.body.email,
         //phone: req.body.phone,
         totalReserves: req.body.totalReserves
     };
@@ -42,7 +42,7 @@ async function add(req, res) {
     });
     return res.status(201).json({ message: 'User created', data: newUser });
     const input = req.body.sanitizedInput;
-    const userInput = new User(input.name, input.lastName, input.mail, 
+    const userInput = new User(input.name, input.lastName, input.email, 
     //input.phone,
     input.totalReserves);
     const user = await userRepo.add(userInput);
