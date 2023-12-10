@@ -10,7 +10,7 @@ function sanitizeUserInput(req, res, next) {
         lastName: req.body.lastName,
         email: req.body.email,
         //phone: req.body.phone,
-        totalReserves: req.body.totalReserves
+        password: req.body.password
     };
     Object.keys(req.body.sanitizedInput).forEach((key) => {
         if (req.body.sanitizedInput[key] === undefined) {
@@ -44,7 +44,7 @@ async function add(req, res) {
     const input = req.body.sanitizedInput;
     const userInput = new User(input.name, input.lastName, input.email, 
     //input.phone,
-    input.totalReserves);
+    input.password);
     const user = await userRepo.add(userInput);
     res.status(201).json({ message: 'User added', data: user });
 }

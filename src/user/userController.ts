@@ -13,7 +13,7 @@ function sanitizeUserInput(req:Request, res:Response, next:NextFunction){
         lastName: req.body.lastName,
         email: req.body.email,
         //phone: req.body.phone,
-        totalReserves: req.body.totalReserves
+        password: req.body.password
     }
 
     Object.keys(req.body.sanitizedInput).forEach((key) => {
@@ -60,7 +60,7 @@ async function add (req:Request, res:Response){
         input.lastName,
         input.email,
         //input.phone,
-        input.totalReserves
+        input.password
     )
     const user = await userRepo.add(userInput)
     res.status(201).json({ message:'User added', data:user })

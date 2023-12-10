@@ -13,7 +13,10 @@ const userSchema = z.object({
         required_error: "email is required",
         invalid_type_error: "email must be a string"
     }).includes('@', {message:"At must be included"}).includes('.com', {message:".com must be included"}),
-    totalReserves: z.number().int().positive().optional()
+    password: z.string({
+        required_error: "Password is required",
+        invalid_type_error: "Password must be a string"
+    }),
 })
 
 export function validateUser(input :any){
