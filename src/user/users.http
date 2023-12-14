@@ -9,9 +9,9 @@ Content-Type: application/json
 {
     "name": "Bernardo",
     "lastName": "Oviedo",
-    "mail": "bernioviedo@gmail.com",
+    "email": "bernioviedo@gmail.com",
     "phone": "3407415215",
-    "totalReserves": 10
+    "password": "hola123"
 }
 ###modify a user by PUT method
 PUT http://localhost:8080/api/users/654bf6181880b25b079b2f78
@@ -19,16 +19,16 @@ Content-Type: application/json
 
 {
     "name": "Santiago Santoro",
-    "mail": "santitoro@gmail.com",
+    "email": "santitoro@gmail.com",
     "phone": "3407440934",
-    "totalReserves": 16
+    "password": "abcdef"
 }
 ###modify a user by PATCH method
 PATCH  http://localhost:8080/api/users/07cbe406-7f4d-45f2-9811-b3c99414f5c9
 Content-Type: application/json
 
 {
-    "mail": "bernardo@gmail.com"
+    "email": "bernardo@gmail.com"
 }
 ###delete a user
 DELETE http://localhost:8080/api/users/654e8fb0de96886975286d03
